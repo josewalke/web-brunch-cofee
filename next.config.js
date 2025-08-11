@@ -19,8 +19,7 @@ const nextConfig = {
   
   // Configuración de experimental features
   experimental: {
-    // Deshabilitar features que no funcionan en export estático
-    appDir: true,
+    // Solo mantener features compatibles con export estático
   },
   
   // Configuración de webpack
@@ -30,36 +29,6 @@ const nextConfig = {
       // Configuraciones para el cliente
     }
     return config;
-  },
-  
-  // Configuración de headers
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-        ],
-      },
-    ];
-  },
-  
-  // Configuración de redirects
-  async redirects() {
-    return [
-      // Añade redirects personalizados si los necesitas
-    ];
   },
 };
 

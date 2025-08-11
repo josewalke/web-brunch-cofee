@@ -116,7 +116,7 @@ export const MenuSection = React.memo(() => {
                           5: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=400&h=300&q=80", // pancakes
                           6: "https://images.unsplash.com/photo-1563203369-26f2e4a5ccf7?auto=format&fit=crop&w=400&h=300&q=80"  // zumo
                         };
-                        target.src = fallbackImages[item.id] || fallbackImages[1];
+                        target.src = fallbackImages[item.id as keyof typeof fallbackImages] || fallbackImages[1];
                       } else {
                         // Último recurso: placeholder SVG elegante
                         target.src = `data:image/svg+xml;base64,${btoa(`

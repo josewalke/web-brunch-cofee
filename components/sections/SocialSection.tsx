@@ -279,7 +279,7 @@ export function SocialSection() {
                           5: "https://images.unsplash.com/photo-1505253213348-cd54c92b37ed?auto=format&fit=crop&w=400&h=400&q=80", // burrata
                           6: "https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=400&h=400&q=80"  // zumo verde
                         };
-                        target.src = foodBackupImages[post.id] + '&backup-food=true';
+                        target.src = foodBackupImages[post.id as keyof typeof foodBackupImages] + '&backup-food=true';
                       } else {
                         // Último recurso: imagen genérica de café
                         target.src = "https://images.unsplash.com/photo-1559154755-82a173460e78?auto=format&fit=crop&w=400&h=400&q=80";
@@ -306,7 +306,7 @@ export function SocialSection() {
                   {post.tags && post.tags.length > 0 && (
                     <div className="absolute bottom-2 left-2 right-2">
                       <div className="flex flex-wrap gap-1">
-                        {post.tags.slice(0, 2).map((tag, tagIndex) => (
+                        {post.tags.slice(0, 2).map((tag: string, tagIndex: number) => (
                           <Badge
                             key={tagIndex}
                             variant="secondary"

@@ -1,6 +1,6 @@
 "use client";
 
-import { Coffee, Heart } from "lucide-react";
+import { Coffee, Heart, Clock } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { motion } from "framer-motion";

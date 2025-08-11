@@ -41,6 +41,9 @@ export interface SocialPost {
   caption: string;
   likes: number;
   timeAgo: string;
+  isOriginal?: boolean;
+  tags?: string[];
+  permalink?: string;
 }
 
 export type TagColor = {
