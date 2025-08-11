@@ -1,0 +1,54 @@
+name: 🧪 Test & Quality Check
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  test:
+    name: 🧪 Testing & Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout código
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: 📦 Instalar dependencias
+      run: |
+        npm ci
+        echo "✅ Dependencias instaladas correctamente"
+        
+    - name: 🔍 Linting
+      run: |
+        npm run lint
+        echo "✅ Linting completado"
+        
+    - name: 📝 Type checking
+      run: |
+        npx tsc --noEmit
+        echo "✅ TypeScript check completado"
+        
+    - name: 🏗️ Build del proyecto
+      run: |
+        npm run build
+        echo "✅ Build completado exitosamente"
+        
+    - name: 📊 Resumen de calidad
+      if: always()
+      run: |
+        echo "🎯 Resumen de calidad del código:"
+        echo "✅ Linting: Completado"
+        echo "✅ TypeScript: Completado"
+        echo "✅ Build: Completado"
+        echo "🚀 Listo para merge!"

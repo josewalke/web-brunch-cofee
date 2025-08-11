@@ -1,24 +1,38 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Configuración para exportación estática
+  output: 'export',
+  
+  // Configuración de imágenes
   images: {
-    domains: ['images.unsplash.com'],
-    formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    unoptimized: true,
   },
+  
+  // Configuración de trailing slash
+  trailingSlash: true,
+  
+  // Configuración de base path (útil si tienes subdirectorios)
+  // basePath: '',
+  
+  // Configuración de asset prefix (útil para CDN)
+  // assetPrefix: '',
+  
+  // Configuración de experimental features
   experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['lucide-react', 'framer-motion'],
+    // Deshabilitar features que no funcionan en export estático
+    appDir: true,
   },
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+  
+  // Configuración de webpack
+  webpack: (config, { isServer }) => {
+    // Configuraciones específicas de webpack si las necesitas
+    if (!isServer) {
+      // Configuraciones para el cliente
+    }
+    return config;
   },
-  swcMinify: true,
-  compress: true,
-  poweredByHeader: false,
-  generateEtags: false,
-  reactStrictMode: true,
-  trailingSlash: false,
+  
+  // Configuración de headers
   async headers() {
     return [
       {
@@ -36,35 +50,17 @@ const nextConfig = {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
           },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
-          },
-        ],
-      },
-      {
-        source: '/sitemap.xml',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/xml',
-          },
         ],
       },
     ];
   },
-  async rewrites() {
+  
+  // Configuración de redirects
+  async redirects() {
     return [
-      {
-        source: '/robots.txt',
-        destination: '/api/robots',
-      },
+      // Añade redirects personalizados si los necesitas
     ];
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

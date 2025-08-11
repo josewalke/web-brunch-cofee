@@ -1,0 +1,75 @@
+name: 🚀 Deploy to Netlify
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: # Permite ejecutar manualmente
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  build-and-deploy:
+    name: 🏗️ Build & Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout código
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: 📦 Instalar dependencias
+      run: |
+        npm ci
+        echo "✅ Dependencias instaladas correctamente"
+        
+    - name: 🔍 Linting
+      run: |
+        npm run lint
+        echo "✅ Linting completado"
+        
+    - name: 📝 Type checking
+      run: |
+        npx tsc --noEmit
+        echo "✅ TypeScript check completado"
+        
+    - name: 🏗️ Build del proyecto
+      run: |
+        npm run build
+        echo "✅ Build completado"
+        ls -la out/
+        
+    - name: 🚀 Deploy a Netlify
+      uses: nwtgck/actions-netlify@v2.0
+      with:
+        publish-dir: './out'
+        production-branch: main
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: "🚀 Deploy automático desde GitHub - Commit: ${{ github.sha }}"
+        enable-pull-request-comment: true
+        enable-commit-comment: true
+        overwrites-pull-request-comment: true
+        github-deployment: true
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      timeout-minutes: 5
+      
+    - name: ✅ Deploy completado
+      if: success()
+      run: |
+        echo "🎉 ¡Deploy completado exitosamente!"
+        echo "🌐 Tu sitio está disponible en Netlify"
+        
+    - name: ❌ Deploy falló
+      if: failure()
+      run: |
+        echo "💥 El deploy falló. Revisa los logs arriba."
+        echo "🔍 Verifica la configuración de Netlify y los secrets."

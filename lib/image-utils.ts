@@ -24,21 +24,20 @@ export function createImagePlaceholder(width: number = 400, height: number = 400
   // Limpiar el texto de caracteres problemáticos para SVG
   const cleanText = text.replace(/[🥪☕🥞🥗🍅🥐🏪💼🐕]/g, '').trim() || 'Fresquito';
   
-  // Generar ID único para el gradiente para evitar conflictos
-  const gradientId = `grad_${Math.random().toString(36).substr(2, 9)}`;
-  
-  const svg = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+  const svg = `
+    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="${gradientId}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style="stop-color:#2563eb;stop-opacity:0.8" />
           <stop offset="100%" style="stop-color:#1e40af;stop-opacity:0.6" />
         </linearGradient>
       </defs>
-      <rect width="${width}" height="${height}" fill="url(#${gradientId})" rx="12"/>
+      <rect width="${width}" height="${height}" fill="url(#grad1)" rx="12"/>
       <circle cx="${width/2}" cy="${height/3}" r="${Math.min(width, height)/8}" fill="white" opacity="0.9"/>
       <rect x="${width/4}" y="${height*0.6}" width="${width/2}" height="${height*0.2}" rx="8" fill="white" opacity="0.8"/>
       <text x="${width/2}" y="${height*0.9}" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="${Math.min(width, height)/20}" font-weight="bold">${cleanText}</text>
-    </svg>`;
+    </svg>
+  `;
   
   return `data:image/svg+xml;base64,${safeBase64Encode(svg)}`;
 }
