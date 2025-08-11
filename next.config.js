@@ -3,6 +3,10 @@ const nextConfig = {
   // Configuración para exportación estática
   output: 'export',
   
+  // Configuración específica para GitHub Pages
+  basePath: '/web-brunch-cofee',
+  assetPrefix: '/web-brunch-cofee/',
+  
   // Configuración de imágenes
   images: {
     unoptimized: true,
@@ -10,12 +14,6 @@ const nextConfig = {
   
   // Configuración de trailing slash
   trailingSlash: true,
-  
-  // Configuración de base path (útil si tienes subdirectorios)
-  // basePath: '',
-  
-  // Configuración de asset prefix (útil para CDN)
-  // assetPrefix: '',
   
   // Configuración de experimental features
   experimental: {
