@@ -28,17 +28,15 @@ export function SocialSection() {
     setError(null);
     
     try {
-      // Usar el API route de Next.js (recomendado)
-      const response = await fetch('/api/instagram');
-      const result = await response.json();
-      
-      if (result.success && result.data) {
-        setInstagramPosts(result.data);
-        setLastUpdate(new Date());
-        setApiStatus(result.config || null);
-      } else {
-        throw new Error(result.error || 'Failed to fetch posts');
-      }
+      // En modo estático, usar contenido de respaldo directamente
+      // La API no funciona en export estático
+      setInstagramPosts(getFallbackPosts());
+      setLastUpdate(new Date());
+      setApiStatus({
+        hasGraphAPI: false,
+        hasBasicDisplay: false,
+        isValid: false
+      });
     } catch (error) {
       console.error('Error loading Instagram posts:', error);
       setError('No se pudieron cargar los posts de Instagram');
